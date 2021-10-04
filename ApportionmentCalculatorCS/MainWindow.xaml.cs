@@ -15,7 +15,7 @@ using System.Windows.Shapes;
 
 namespace ApportionmentCalculatorNET
 {
-    
+
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -25,35 +25,10 @@ namespace ApportionmentCalculatorNET
         public MainWindow()
         {
             InitializeComponent();
-            DataGridXAML.ItemsSource = ApportionRowData.GetRowData();
 
-
-        }
-
-        private void AddButton_Click(object sender, RoutedEventArgs e)
-        {
+            // default row
             var list = ApportionRowData.GetRowData();
             Console.WriteLine(list);
-            ApportionRow newRow = new ApportionRow()
-            {
-                state = "x",
-                population = "",
-                initialQuota = "",
-                finalQuota = "",
-                initialFairShare = "",
-                finalFairShare = "",
-            };
-            list.Add(newRow);
-            DataGridXAML.ItemsSource = list;
-        }
-    }
-
-    public class ApportionRowData
-    {
-
-        public static List<ApportionRow> GetRowData()
-        {
-            var list = new List<ApportionRow>();
             ApportionRow newRow = new ApportionRow()
             {
                 state = "1",
@@ -63,8 +38,65 @@ namespace ApportionmentCalculatorNET
                 initialFairShare = "",
                 finalFairShare = "",
             };
-            list.Add(newRow);
+            ApportionRowData.AddToList(newRow);
+            DataGridXAML.ItemsSource = ApportionRowData.GetRowData();
+
+
+        }
+
+        private void AddButton_Click(object sender, RoutedEventArgs e)
+        {
+            var list = ApportionRowData.GetRowData();
+            ApportionRow newRow = new ApportionRow()
+            {
+                state = "" + (list.Count + 1),
+                population = "",
+                initialQuota = "",
+                finalQuota = "",
+                initialFairShare = "",
+                finalFairShare = "",
+            };
+            ApportionRowData.AddToList(newRow);
+            DataGridXAML.ItemsSource = null;
+            DataGridXAML.ItemsSource = ApportionRowData.GetRowData();
+        }
+
+        private void RemoveButton_Click(object sender, RoutedEventArgs e)
+        {
+            var list = ApportionRowData.GetRowData();
+            if (list.Count > 1)
+            {
+                list.RemoveAt(list.Count - 1);
+                DataGridXAML.ItemsSource = null;
+                DataGridXAML.ItemsSource = ApportionRowData.GetRowData();
+            }
+        }
+
+        private void ClearButton_Click(object sender, RoutedEventArgs e)
+        {
+            var list = ApportionRowData.GetRowData();
+            for (int i = list.Count - 1; i > 0; i--)
+            {
+                list.RemoveAt(i);
+                DataGridXAML.ItemsSource = null;
+                DataGridXAML.ItemsSource = ApportionRowData.GetRowData();
+            }
+            DataGridXAML.ItemsSource = null;
+            DataGridXAML.ItemsSource = ApportionRowData.GetRowData();
+        }
+    }
+
+    public class ApportionRowData
+    {
+        private static List<ApportionRow> list = new List<ApportionRow>();
+        public static List<ApportionRow> GetRowData()
+        {
             return list;
+        }
+
+        public static void AddToList(ApportionRow newRow)
+        {
+            list.Add(newRow);
         }
     }
 
