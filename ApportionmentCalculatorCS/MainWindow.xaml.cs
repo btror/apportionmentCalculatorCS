@@ -15,11 +15,13 @@ using System.Windows.Shapes;
 
 namespace ApportionmentCalculatorNET
 {
+    
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
+
         public MainWindow()
         {
             InitializeComponent();
@@ -27,10 +29,28 @@ namespace ApportionmentCalculatorNET
 
 
         }
+
+        private void AddButton_Click(object sender, RoutedEventArgs e)
+        {
+            var list = ApportionRowData.GetRowData();
+            Console.WriteLine(list);
+            ApportionRow newRow = new ApportionRow()
+            {
+                state = "x",
+                population = "",
+                initialQuota = "",
+                finalQuota = "",
+                initialFairShare = "",
+                finalFairShare = "",
+            };
+            list.Add(newRow);
+            DataGridXAML.ItemsSource = list;
+        }
     }
 
     public class ApportionRowData
     {
+
         public static List<ApportionRow> GetRowData()
         {
             var list = new List<ApportionRow>();

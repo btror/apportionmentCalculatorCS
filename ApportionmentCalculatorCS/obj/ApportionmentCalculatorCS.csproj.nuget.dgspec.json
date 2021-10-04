@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\brorie3\\Desktop\\dev\\ApportionmentCalculatorNET\\ApportionmentCalculatorNET\\ApportionmentCalculatorCS.csproj": {}
+    "C:\\Users\\brorie3\\Desktop\\dev\\ApportionmentCalculatorCS\\ApportionmentCalculatorCS\\ApportionmentCalculatorCS.csproj": {}
   },
   "projects": {
-    "C:\\Users\\brorie3\\Desktop\\dev\\ApportionmentCalculatorNET\\ApportionmentCalculatorNET\\ApportionmentCalculatorCS.csproj": {
+    "C:\\Users\\brorie3\\Desktop\\dev\\ApportionmentCalculatorCS\\ApportionmentCalculatorCS\\ApportionmentCalculatorCS.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\brorie3\\Desktop\\dev\\ApportionmentCalculatorNET\\ApportionmentCalculatorNET\\ApportionmentCalculatorCS.csproj",
+        "projectUniqueName": "C:\\Users\\brorie3\\Desktop\\dev\\ApportionmentCalculatorCS\\ApportionmentCalculatorCS\\ApportionmentCalculatorCS.csproj",
         "projectName": "ApportionmentCalculatorCS",
-        "projectPath": "C:\\Users\\brorie3\\Desktop\\dev\\ApportionmentCalculatorNET\\ApportionmentCalculatorNET\\ApportionmentCalculatorCS.csproj",
+        "projectPath": "C:\\Users\\brorie3\\Desktop\\dev\\ApportionmentCalculatorCS\\ApportionmentCalculatorCS\\ApportionmentCalculatorCS.csproj",
         "packagesPath": "C:\\Users\\brorie3\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\brorie3\\Desktop\\dev\\ApportionmentCalculatorNET\\ApportionmentCalculatorNET\\obj\\",
+        "outputPath": "C:\\Users\\brorie3\\Desktop\\dev\\ApportionmentCalculatorCS\\ApportionmentCalculatorCS\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
