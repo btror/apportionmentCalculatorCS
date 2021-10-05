@@ -1,0 +1,105 @@
+﻿using System;
+using System.Linq;
+
+namespace ApportionmentCalculatorNET
+{
+    public class Adam
+    {
+
+        public static Tuple<int[], int[], decimal[], decimal[], decimal, decimal> Calculate(int seats, int[] populations)
+        {
+            int states = populations.Length;
+            decimal initialDivisor = populations.Sum() / (decimal)seats;
+            decimal[] initialQuotas = new decimal[states];
+
+            // Calculate the initial quotas.
+            for (int i = 0; i < states; i++)
+            {
+                initialQuotas[i] = populations[i] / initialDivisor;
+            }
+
+            int[] initialFairShares = new int[states];
+
+            // Calculate the initial fair shares.
+            for (int i = 0; i < states; i++)
+            {
+                initialFairShares[i] = (int)Math.Ceiling(initialQuotas[i]);
+            }
+
+            decimal[] finalQuotas = new decimal[states];
+            decimal[] decimalArray = new decimal[states];
+            decimal modifiedDivisor = populations.Sum() / (decimal)seats;
+
+            // Calculate the final quotas.
+            for (int i = 0; i < states; i++)
+            {
+                finalQuotas[i] = populations[i] / modifiedDivisor;
+                decimalArray[i] = finalQuotas[i] - Math.Truncate(populations[i] / modifiedDivisor);
+            }
+
+            int[] finalFairShares = new int[states];
+            decimal estimator = populations.Sum() / seats;
+
+            // Initialize final fair shares.
+            for (int i = 0; i < states; i++)
+            {
+                finalFairShares[i] = (int)Math.Ceiling(initialQuotas[i]);
+            }
+
+            int timeKeeper = 0;
+
+            // Begin apportionment.
+            while (finalFairShares.Sum() != seats)
+            {
+                if (timeKeeper == 5000)
+                {
+                    break;
+                }
+
+                if (finalFairShares.Sum() > seats)
+                {
+                    modifiedDivisor += estimator;
+                }
+                else
+                {
+                    modifiedDivisor -= estimator;
+                }
+
+                estimator /= 2;
+
+                if (modifiedDivisor == 0)
+                {
+                    modifiedDivisor = 1;
+                }
+
+                for (int i = 0; i < states; i++)
+                {
+                    finalQuotas[i] = populations[i] / modifiedDivisor;
+                }
+
+                for (int i = 0; i < states; i++)
+                {
+                    finalFairShares[i] = (int)Math.Ceiling(finalQuotas[i]);
+                }
+
+                timeKeeper++;
+            }
+
+            if (timeKeeper == 5000)
+            {
+                return null;
+            }
+            else
+            {
+                for (int i = 0; i < states; i++)
+                {
+                    initialQuotas[i] = Math.Round(initialQuotas[i], 5);
+                    finalQuotas[i] = Math.Round(finalQuotas[i], 5);
+                }
+                initialDivisor = Math.Round(initialDivisor, 5);
+                modifiedDivisor = Math.Round(modifiedDivisor, 5);
+                return Tuple.Create(initialFairShares, finalFairShares, initialQuotas, finalQuotas, initialDivisor, modifiedDivisor);
+            }
+        }
+    }
+}
