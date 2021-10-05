@@ -12,21 +12,36 @@
                 <Label Content="seats" VerticalAlignment="Center"></Label>
                 <TextBox VerticalAlignment="Center" Width="50"/>
 
-                <Button Content="-" Click="RemoveButton_Click" VerticalAlignment="Center" Width="18" Height="18" Margin="20,0,0,0" />
-                <Button Content="+" Click="AddButton_Click" VerticalAlignment="Center" Width="18" Height="18" Margin="2,0,0,0" />
-                <Button Content="=" VerticalAlignment="Center" Width="18" Height="18" Margin="2,0,0,0" />
-                <Button Content="clear" Click="ClearButton_Click" VerticalAlignment="Center" Width="35" Height="18" Margin="2,0,0,0" />
+                <Button Content="-" Click="RemoveButton_Click" VerticalAlignment="Center" Width="18" Height="18" Margin="20,0,0,0" FontSize="10" />
+                <Button Content="+" Click="AddButton_Click" VerticalAlignment="Center" Width="18" Height="18" Margin="2,0,0,0" FontSize="10"/>
+                <Button Content="=" VerticalAlignment="Center" Width="18" Height="18" Margin="2,0,0,0" FontSize="10"/>
+                <Button Content="clear" Click="ClearButton_Click" VerticalAlignment="Center" Width="35" Height="18" Margin="2,0,0,0" FontSize="10" />
 
-                <ComboBox HorizontalAlignment="Center" Width="100" Height="18" Margin="20,0,0,0" />
+                <ComboBox HorizontalAlignment="Center" Width="100" Height="18" Margin="20,0,0,0" FontSize="9">
+                    <ComboBoxItem Name="hamilton" IsSelected="True">hamilton</ComboBoxItem>
+                    <ComboBoxItem Name="jefferson">jefferson</ComboBoxItem>
+                    <ComboBoxItem Name="webster">webster</ComboBoxItem>
+                    <ComboBoxItem Name="adam">adam</ComboBoxItem>
+                    <ComboBoxItem Name="huntington_hill">huntington hill</ComboBoxItem>
+                </ComboBox>
 
                 <Slider Width="75" Height="18" VerticalAlignment="Center" Margin="20,0,0,0" Panel.ZIndex="-1" />
             </StackPanel>
 
-            <DataGrid x:Name="DataGridXAML" CanUserAddRows="False" AutoGenerateColumns="False">
-                
+            <DataGrid x:Name="DataGridXAML" CanUserAddRows="False" AutoGenerateColumns="False" HeadersVisibility="Column">
+                <DataGrid.Resources>
+                    <Style TargetType="DataGridCell">
+                        <Style.Triggers>
+                            <Trigger Property="IsReadOnly" Value="True">
+                                <Setter Property="IsTabStop" Value="False"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#66ba73"/>
+                </DataGrid.Resources>
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="state" Binding="{Binding state}" IsReadOnly="True" Width="120"/>
-                    <DataGridTextColumn Header="population" Binding="{Binding population}" IsReadOnly="False" Width="120"/>
+                    <DataGridTextColumn Header="population" Binding="{Binding population}" IsReadOnly="False" Width="120" CanUserSort="True"/>
                     <DataGridTextColumn Header="initial quota" Binding="{Binding initialQuota}" IsReadOnly="True" Width="120"/>
                     <DataGridTextColumn Header="final quota" Binding="{Binding finalQuota}" IsReadOnly="True" Width="120"/>
                     <DataGridTextColumn Header="initial fair share" Binding="{Binding initialFairShare}" IsReadOnly="True" Width="120"/>
