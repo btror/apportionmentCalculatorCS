@@ -49,7 +49,7 @@
                 </DataGrid.Columns>
             </DataGrid>
 
-            <Label x:Name="Output" Content="output" VerticalAlignment="Center"></Label>
+            <Label x:Name="Output" VerticalAlignment="Center"></Label>
         </StackPanel>
 
     </Grid>
