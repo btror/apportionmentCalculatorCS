@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Text.RegularExpressions;
 using System.Windows.Input;
+using System.Windows.Data;
 
 namespace ApportionmentCalculatorNET
 {
@@ -66,6 +67,7 @@ namespace ApportionmentCalculatorNET
             list[0].finalFairShare = 0;
             list[0].initialQuota = 0;
             list[0].finalQuota = 0;
+            list[0].nickname = "";
             DataGridXAML.ItemsSource = null;
             DataGridXAML.ItemsSource = ApportionRowData.GetRowData();
             Output.Content = "";
@@ -203,6 +205,7 @@ namespace ApportionmentCalculatorNET
 
     public class ApportionRow
     {
+        public string nickname { get; set; }
         public int state { get; set; }
         public int population { get; set; }
         public decimal initialQuota { get; set; }
