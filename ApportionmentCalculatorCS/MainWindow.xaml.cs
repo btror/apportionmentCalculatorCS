@@ -1,18 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
+using System.Text.RegularExpressions;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Diagnostics;
 
 namespace ApportionmentCalculatorNET
 {
@@ -77,74 +68,122 @@ namespace ApportionmentCalculatorNET
             list[0].finalQuota = 0;
             DataGridXAML.ItemsSource = null;
             DataGridXAML.ItemsSource = ApportionRowData.GetRowData();
+            Output.Content = "";
         }
 
         private void CalculateButton_Click(object sender, RoutedEventArgs e)
         {
             var list = ApportionRowData.GetRowData();
-            int seats = int.Parse(SeatsInput.Text); //(int)SeatsLabel.Content;
-            int[] states = new int[list.Count];
-            int[] populations = new int[list.Count];
-            decimal[] initialQuotas = new decimal[list.Count];
-            decimal[] finalQuotas = new decimal[list.Count];
-            int[] initialFairShares = new int[list.Count];
-            int[] finalFairShares = new int[list.Count];
+            int seats = 0;
+            try
+            {
+                seats = int.Parse(SeatsInput.Text); // System.FormatException: 
+            } catch (System.FormatException)
+            {
+                SeatsInput.Text = "";
+            }
 
+            int populationTotal = 0;
             for (int i = 0; i < list.Count; i++)
             {
-                states[i] = list[i].state;
-                populations[i] = list[i].population;
+                populationTotal += list[i].population;
             }
 
-            string method = ComboBox.SelectedValue.ToString();
+            if (seats > 0 && populationTotal > 0)
+            {
+                int[] states = new int[list.Count];
+                int[] populations = new int[list.Count];
+                decimal[] initialQuotas = new decimal[list.Count];
+                decimal[] finalQuotas = new decimal[list.Count];
+                int[] initialFairShares = new int[list.Count];
+                int[] finalFairShares = new int[list.Count];
 
-            if (method.Equals("System.Windows.Controls.ComboBoxItem: hamilton"))
+                for (int i = 0; i < list.Count; i++)
+                {
+                    states[i] = list[i].state;
+                    populations[i] = list[i].population;
+                }
+
+                string method = ComboBox.SelectedValue.ToString();
+
+                if (method.Equals("System.Windows.Controls.ComboBoxItem: hamilton"))
+                {
+                    var result = Hamilton.Calculate(seats, populations);
+                    initialQuotas = result.Item3;
+                    finalQuotas = result.Item4;
+                    initialFairShares = result.Item1;
+                    finalFairShares = result.Item2;
+                    Output.Content = "Divisor is " + result.Item6;
+                }
+                else if (method.Equals("System.Windows.Controls.ComboBoxItem: jefferson"))
+                {
+                    var result = Jefferson.Calculate(seats, populations);
+                    initialQuotas = result.Item3;
+                    finalQuotas = result.Item4;
+                    initialFairShares = result.Item1;
+                    finalFairShares = result.Item2;
+                    Output.Content = "Original divisor is " + result.Item5 + "\nModified divisor is " + result.Item6;
+                }
+                else if (method.Equals("System.Windows.Controls.ComboBoxItem: webster"))
+                {
+                    var result = Webster.Calculate(seats, populations);
+                    initialQuotas = result.Item3;
+                    finalQuotas = result.Item4;
+                    initialFairShares = result.Item1;
+                    finalFairShares = result.Item2;
+                    Output.Content = "Original divisor is " + result.Item5 + "\nModified divisor is " + result.Item6;
+                }
+                else if (method.Equals("System.Windows.Controls.ComboBoxItem: adam"))
+                {
+                    var result = Adam.Calculate(seats, populations);
+                    initialQuotas = result.Item3;
+                    finalQuotas = result.Item4;
+                    initialFairShares = result.Item1;
+                    finalFairShares = result.Item2;
+                    Output.Content = "Original divisor is " + result.Item5 + "\nModified divisor is " + result.Item6;
+                }
+                else if (method.Equals("System.Windows.Controls.ComboBoxItem: huntington hill"))
+                {
+                    var result = HuntingtonHill.Calculate(seats, populations);
+                    initialQuotas = result.Item3;
+                    finalQuotas = result.Item4;
+                    initialFairShares = result.Item1;
+                    finalFairShares = result.Item2;
+                    Output.Content = "Original divisor is " + result.Item5 + "\nModified divisor is " + result.Item6;
+                }
+
+                for (int i = 0; i < list.Count; i++)
+                {
+                    list[i].initialFairShare = initialFairShares[i];
+                    list[i].finalFairShare = finalFairShares[i];
+                    list[i].initialQuota = initialQuotas[i];
+                    list[i].finalQuota = finalQuotas[i];
+                }
+
+                DataGridXAML.ItemsSource = null;
+                DataGridXAML.ItemsSource = ApportionRowData.GetRowData();
+            } else
             {
-                var result = Hamilton.Calculate(seats, populations);
-                initialQuotas = result.Item3;
-                finalQuotas = result.Item4;
-                initialFairShares = result.Item1;
-                finalFairShares = result.Item2;
-            } else if (method.Equals("System.Windows.Controls.ComboBoxItem: jefferson"))
-            {
-                var result = Jefferson.Calculate(seats, populations);
-                initialQuotas = result.Item3;
-                finalQuotas = result.Item4;
-                initialFairShares = result.Item1;
-                finalFairShares = result.Item2;
-            } else if (method.Equals("System.Windows.Controls.ComboBoxItem: webster"))
-            {
-                var result = Webster.Calculate(seats, populations);
-                initialQuotas = result.Item3;
-                finalQuotas = result.Item4;
-                initialFairShares = result.Item1;
-                finalFairShares = result.Item2;
-            } else if (method.Equals("System.Windows.Controls.ComboBoxItem: adam"))
-            {
-                var result = Adam.Calculate(seats, populations);
-                initialQuotas = result.Item3;
-                finalQuotas = result.Item4;
-                initialFairShares = result.Item1;
-                finalFairShares = result.Item2;
-            } else if (method.Equals("System.Windows.Controls.ComboBoxItem: huntington hill"))
-            {
-                var result = HuntingtonHill.Calculate(seats, populations);
-                initialQuotas = result.Item3;
-                finalQuotas = result.Item4;
-                initialFairShares = result.Item1;
-                finalFairShares = result.Item2;
+                string output = "Errors detected...";
+                if (seats < 1)
+                {
+                    output += "\n- Number of seats must be greater than 0.";
+                }
+
+                if (populationTotal < 1)
+                {
+                    output += "\n- Total population must be greater than 0.";
+                }
+                Output.Content = output;
             }
+            
+      
+        }
 
-            for (int i = 0; i < list.Count; i++)
-            {
-                list[i].initialFairShare = initialFairShares[i];
-                list[i].finalFairShare = finalFairShares[i];
-                list[i].initialQuota = initialQuotas[i];
-                list[i].finalQuota = finalQuotas[i];
-            }
-
-            DataGridXAML.ItemsSource = null;
-            DataGridXAML.ItemsSource = ApportionRowData.GetRowData();
+        private void Seats(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
         }
     }
 
