@@ -3,56 +3,63 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:ApportionmentCalculatorNET"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Label Content="seats" VerticalAlignment="Center"></Label>
-                <TextBox x:Name="SeatsInput" PreviewTextInput="Seats" VerticalAlignment="Center" Width="50"/>
+        <ScrollViewer HorizontalScrollBarVisibility="Auto">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="seats" VerticalAlignment="Center"></Label>
+                    <TextBox x:Name="SeatsInput" PreviewTextInput="Seats" VerticalAlignment="Center" Width="50"/>
 
-                <Button Content="-" Click="RemoveButton_Click" VerticalAlignment="Center" Width="18" Height="18" Margin="20,0,0,0" FontSize="10" />
-                <Button Content="+" Click="AddButton_Click" VerticalAlignment="Center" Width="18" Height="18" Margin="2,0,0,0" FontSize="10"/>
-                <Button Content="=" Click="CalculateButton_Click" VerticalAlignment="Center" Width="18" Height="18" Margin="2,0,0,0" FontSize="10"/>
-                <Button Content="clear" Click="ClearButton_Click" VerticalAlignment="Center" Width="35" Height="18" Margin="2,0,0,0" FontSize="10" />
+                    <Button Content="-" Click="RemoveButton_Click" VerticalAlignment="Center" Width="18" Height="18" Margin="20,0,0,0" FontSize="10" />
+                    <Button Content="+" Click="AddButton_Click" VerticalAlignment="Center" Width="18" Height="18" Margin="2,0,0,0" FontSize="10"/>
+                    <Button Content="=" Click="CalculateButton_Click" VerticalAlignment="Center" Width="18" Height="18" Margin="2,0,0,0" FontSize="10"/>
+                    <Button Content="clear" Click="ClearButton_Click" VerticalAlignment="Center" Width="35" Height="18" Margin="2,0,0,0" FontSize="10" />
 
-                <ComboBox x:Name="ComboBox" HorizontalAlignment="Center" Width="100" Height="18" Margin="20,0,0,0" FontSize="9">
-                    <ComboBoxItem Name="hamilton" IsSelected="True">hamilton</ComboBoxItem>
-                    <ComboBoxItem Name="jefferson">jefferson</ComboBoxItem>
-                    <ComboBoxItem Name="webster">webster</ComboBoxItem>
-                    <ComboBoxItem Name="adam">adam</ComboBoxItem>
-                    <ComboBoxItem Name="huntington_hill">huntington hill</ComboBoxItem>
-                </ComboBox>
+                    <ComboBox x:Name="ComboBox" HorizontalAlignment="Center" Width="100" Height="18" Margin="20,0,0,0" FontSize="9">
+                        <ComboBoxItem Name="hamilton" IsSelected="True">hamilton</ComboBoxItem>
+                        <ComboBoxItem Name="jefferson">jefferson</ComboBoxItem>
+                        <ComboBoxItem Name="webster">webster</ComboBoxItem>
+                        <ComboBoxItem Name="adam">adam</ComboBoxItem>
+                        <ComboBoxItem Name="huntington_hill">huntington hill</ComboBoxItem>
+                    </ComboBox>
 
-                <!--<Slider Width="150" Height="18" VerticalAlignment="Center" Margin="20,0,0,0" Panel.ZIndex="-1" Background="{x:Null}" />-->
+                    <!--<Slider Width="150" Height="18" VerticalAlignment="Center" Margin="20,0,0,0" Panel.ZIndex="-1" Background="{x:Null}" />-->
+                </StackPanel>
+
+                <DataGrid x:Name="DataGridXAML" 
+                      CanUserAddRows="False" 
+                      AutoGenerateColumns="False" 
+                      HeadersVisibility="Column" 
+                      ScrollViewer.CanContentScroll="True" 
+                      ScrollViewer.VerticalScrollBarVisibility="Auto"
+                      ScrollViewer.HorizontalScrollBarVisibility="Auto">
+                    <DataGrid.Resources>
+                        <Style TargetType="DataGridCell">
+                            <Style.Triggers>
+                                <Trigger Property="IsReadOnly" Value="True">
+                                    <Setter Property="IsTabStop" Value="False"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#66ba73"/>
+                    </DataGrid.Resources>
+
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="#" Binding="{Binding state}" IsReadOnly="True" Width="30"/>
+                        <DataGridTextColumn Header="name (optional)" Binding="{Binding nickname}" IsReadOnly="False" Width="120"/>
+                        <DataGridTextColumn Header="population*" Binding="{Binding population}" IsReadOnly="False" Width="120" CanUserSort="True"/>
+                        <DataGridTextColumn Header="initial quota" Binding="{Binding initialQuota}" IsReadOnly="True" Width="120"/>
+                        <DataGridTextColumn Header="final quota" Binding="{Binding finalQuota}" IsReadOnly="True" Width="120"/>
+                        <DataGridTextColumn Header="initial fair share" Binding="{Binding initialFairShare}" IsReadOnly="True" Width="120"/>
+                        <DataGridTextColumn Header="final fair share" Binding="{Binding finalFairShare}" IsReadOnly="True" Width="120"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+
+                <Label x:Name="Output" VerticalAlignment="Center"></Label>
             </StackPanel>
-
-            <DataGrid x:Name="DataGridXAML" CanUserAddRows="False" AutoGenerateColumns="False" HeadersVisibility="Column">
-                <DataGrid.Resources>
-                    <Style TargetType="DataGridCell">
-                        <Style.Triggers>
-                            <Trigger Property="IsReadOnly" Value="True">
-                                <Setter Property="IsTabStop" Value="False"/>
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#66ba73"/>
-                </DataGrid.Resources>
-
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="#" Binding="{Binding state}" IsReadOnly="True" Width="30"/>
-                    <DataGridTextColumn Header="name (optional)" Binding="{Binding nickname}" IsReadOnly="False" Width="120"/>
-                    <DataGridTextColumn Header="population*" Binding="{Binding population}" IsReadOnly="False" Width="120" CanUserSort="True"/>
-                    <DataGridTextColumn Header="initial quota" Binding="{Binding initialQuota}" IsReadOnly="True" Width="120"/>
-                    <DataGridTextColumn Header="final quota" Binding="{Binding finalQuota}" IsReadOnly="True" Width="120"/>
-                    <DataGridTextColumn Header="initial fair share" Binding="{Binding initialFairShare}" IsReadOnly="True" Width="120"/>
-                    <DataGridTextColumn Header="final fair share" Binding="{Binding finalFairShare}" IsReadOnly="True" Width="120"/>
-                </DataGrid.Columns>
-            </DataGrid>
-
-            <Label x:Name="Output" VerticalAlignment="Center"></Label>
-        </StackPanel>
-
+        </ScrollViewer>
     </Grid>
 </Window>

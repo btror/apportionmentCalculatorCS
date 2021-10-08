@@ -4,22 +4,20 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Text.RegularExpressions;
 using System.Windows.Input;
-using System.Windows.Data;
 
 namespace ApportionmentCalculatorNET
 {
 
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for MainWindow.xaml.
     /// </summary>
     public partial class MainWindow : Window
     {
-
         public MainWindow()
         {
             InitializeComponent();
 
-            // default row
+            // Create a default row for the datagrid.
             var list = ApportionRowData.GetRowData();
             Console.WriteLine(list);
             ApportionRow newRow = new ApportionRow()
@@ -30,6 +28,11 @@ namespace ApportionmentCalculatorNET
             DataGridXAML.ItemsSource = ApportionRowData.GetRowData();
         }
 
+        /// <summary>
+        /// Adds a new row to the datagrid. 
+        /// </summary>
+        /// <param name="sender">Reference to the add button.</param>
+        /// <param name="e">Event data.</param>
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             var list = ApportionRowData.GetRowData();
@@ -42,6 +45,11 @@ namespace ApportionmentCalculatorNET
             DataGridXAML.ItemsSource = ApportionRowData.GetRowData();
         }
 
+        /// <summary>
+        /// Removes an existing row from the datagrid. 
+        /// </summary>
+        /// <param name="sender">Reference to the remove button.</param>
+        /// <param name="e">Event data.</param>
         private void RemoveButton_Click(object sender, RoutedEventArgs e)
         {
             var list = ApportionRowData.GetRowData();
@@ -53,6 +61,11 @@ namespace ApportionmentCalculatorNET
             }
         }
 
+        /// <summary>
+        /// Removes all existing rows from the datagrid. 
+        /// </summary>
+        /// <param name="sender">Reference to the clear button.</param>
+        /// <param name="e">Event data.</param>
         private void ClearButton_Click(object sender, RoutedEventArgs e)
         {
             var list = ApportionRowData.GetRowData();
@@ -62,6 +75,8 @@ namespace ApportionmentCalculatorNET
                 DataGridXAML.ItemsSource = null;
                 DataGridXAML.ItemsSource = ApportionRowData.GetRowData();
             }
+
+            // Clear the data from the columns in the default row.
             list[0].population = 0;
             list[0].initialFairShare = 0;
             list[0].finalFairShare = 0;
@@ -73,26 +88,36 @@ namespace ApportionmentCalculatorNET
             Output.Content = "";
         }
 
+        /// <summary>
+        /// Calculates results (apportions seats to states, calculates fair shares and quotas, etc).
+        /// </summary>
+        /// <param name="sender">Reference to the calculate button.</param>
+        /// <param name="e">Event data.</param>
         private void CalculateButton_Click(object sender, RoutedEventArgs e)
         {
             var list = ApportionRowData.GetRowData();
+
+            // Collect the amount of seats.
             int seats = 0;
             try
             {
-                seats = int.Parse(SeatsInput.Text); // System.FormatException: 
+                seats = int.Parse(SeatsInput.Text);
             } catch (System.FormatException)
             {
                 SeatsInput.Text = "";
             }
 
+            // Collect the total population of all states.
             int populationTotal = 0;
             for (int i = 0; i < list.Count; i++)
             {
                 populationTotal += list[i].population;
             }
 
+            // Make sure there is a positive number of seats to assign and a population to assign them to.
             if (seats > 0 && populationTotal > 0)
             {
+                // Collect the data required for apportionment.
                 int[] states = new int[list.Count];
                 int[] populations = new int[list.Count];
                 decimal[] initialQuotas = new decimal[list.Count];
@@ -100,14 +125,15 @@ namespace ApportionmentCalculatorNET
                 int[] initialFairShares = new int[list.Count];
                 int[] finalFairShares = new int[list.Count];
 
+                // Create lists for eeach state's population.
                 for (int i = 0; i < list.Count; i++)
                 {
                     states[i] = list[i].state;
                     populations[i] = list[i].population;
                 }
 
+                // Calculate the results depending on the selected apportionment method.
                 string method = ComboBox.SelectedValue.ToString();
-
                 if (method.Equals("System.Windows.Controls.ComboBoxItem: hamilton"))
                 {
                     var result = Hamilton.Calculate(seats, populations);
@@ -154,6 +180,7 @@ namespace ApportionmentCalculatorNET
                     Output.Content = "Original divisor is " + result.Item5 + "\nModified divisor is " + result.Item6;
                 }
 
+                // Update the values in the datagrid to reflect the final calculations.
                 for (int i = 0; i < list.Count; i++)
                 {
                     list[i].initialFairShare = initialFairShares[i];
@@ -161,27 +188,36 @@ namespace ApportionmentCalculatorNET
                     list[i].initialQuota = initialQuotas[i];
                     list[i].finalQuota = finalQuotas[i];
                 }
-
                 DataGridXAML.ItemsSource = null;
                 DataGridXAML.ItemsSource = ApportionRowData.GetRowData();
-            } else
+            } 
+            
+            // If the user input is invalid, display the specific issue to the GUI. 
+            else
             {
                 string output = "Errors detected...";
+
+                // Not enought seats to apportion.
                 if (seats < 1)
                 {
                     output += "\n- Number of seats must be greater than 0.";
                 }
 
+                // No population to assign seats to.
                 if (populationTotal < 1)
                 {
                     output += "\n- Total population must be greater than 0.";
                 }
+
                 Output.Content = output;
             }
-            
-      
         }
 
+        /// <summary>
+        /// Formats input for the seats field (removes letters and special characters). 
+        /// </summary>
+        /// <param name="sender">Reference to the seats textbox.</param>
+        /// <param name="e">Event data.</param>
         private void Seats(object sender, TextCompositionEventArgs e)
         {
             Regex regex = new Regex("[^0-9]+");
@@ -189,6 +225,9 @@ namespace ApportionmentCalculatorNET
         }
     }
 
+    /// <summary>
+    /// Object containing data for each row in the datagrid. 
+    /// </summary>
     public class ApportionRowData
     {
         private static List<ApportionRow> list = new List<ApportionRow>();
@@ -203,6 +242,9 @@ namespace ApportionmentCalculatorNET
         }
     }
 
+    /// <summary>
+    /// Object containing data for each column of each row in the datagrid. 
+    /// </summary>
     public class ApportionRow
     {
         public string nickname { get; set; }
