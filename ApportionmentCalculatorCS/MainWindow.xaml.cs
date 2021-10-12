@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Text.RegularExpressions;
 using System.Windows.Input;
+using System.Linq;
 
 namespace ApportionmentCalculatorNET
 {
@@ -13,6 +14,7 @@ namespace ApportionmentCalculatorNET
     /// </summary>
     public partial class MainWindow : Window
     {
+
         public MainWindow()
         {
             InitializeComponent();
@@ -40,6 +42,21 @@ namespace ApportionmentCalculatorNET
             {
                 state = list.Count + 1,
             };
+
+            // Clear all entries except the populations and name field.
+            for (int i = 0; i < list.Count; i++)
+            {
+                list[i].initialFairShare = "";
+                list[i].finalFairShare = "";
+                list[i].initialQuota = "";
+                list[i].finalQuota = "";
+            }
+            list[0].initialFairShare = "";
+            list[0].finalFairShare = "";
+            list[0].initialQuota = "";
+            list[0].finalQuota = "";
+
+            // Add a new row to the datagrid. 
             ApportionRowData.AddToList(newRow);
             DataGridXAML.ItemsSource = null;
             DataGridXAML.ItemsSource = ApportionRowData.GetRowData();
@@ -56,6 +73,20 @@ namespace ApportionmentCalculatorNET
             if (list.Count > 1)
             {
                 list.RemoveAt(list.Count - 1);
+
+                // Clear all entries except the populations and name field.
+                for (int i = 0; i < list.Count; i++)
+                {
+                    list[i].initialFairShare = "";
+                    list[i].finalFairShare = "";
+                    list[i].initialQuota = "";
+                    list[i].finalQuota = "";
+                }
+                list[0].initialFairShare = "";
+                list[0].finalFairShare = "";
+                list[0].initialQuota = "";
+                list[0].finalQuota = "";
+
                 DataGridXAML.ItemsSource = null;
                 DataGridXAML.ItemsSource = ApportionRowData.GetRowData();
             }
@@ -199,6 +230,7 @@ namespace ApportionmentCalculatorNET
                     list[i].initialQuota = initialQuotas[i] + "";
                     list[i].finalQuota = finalQuotas[i] + "";
                 }
+  
                 DataGridXAML.ItemsSource = null;
                 DataGridXAML.ItemsSource = ApportionRowData.GetRowData();
             } 
