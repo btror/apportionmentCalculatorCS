@@ -34,7 +34,8 @@
                       HeadersVisibility="Column" 
                       ScrollViewer.CanContentScroll="True" 
                       ScrollViewer.VerticalScrollBarVisibility="Auto"
-                      ScrollViewer.HorizontalScrollBarVisibility="Auto">
+                      ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                      CanUserSortColumns="False">
                     <DataGrid.Resources>
                         <Style TargetType="DataGridCell">
                             <Style.Triggers>

@@ -28,7 +28,6 @@ C:\Users\brorie3\Desktop\dev\ApportionmentCalculatorCS\ApportionmentCalculatorCS
 C:\Users\brorie3\Desktop\dev\ApportionmentCalculatorCS\ApportionmentCalculatorCS\obj\Debug\netcoreapp3.1\MainWindow.g.cs
 C:\Users\brorie3\Desktop\dev\ApportionmentCalculatorCS\ApportionmentCalculatorCS\obj\Debug\netcoreapp3.1\App.g.cs
 C:\Users\brorie3\Desktop\dev\ApportionmentCalculatorCS\ApportionmentCalculatorCS\obj\Debug\netcoreapp3.1\ApportionmentCalculatorCS_MarkupCompile.cache
-C:\Users\brorie3\Desktop\dev\ApportionmentCalculatorCS\ApportionmentCalculatorCS\obj\Debug\netcoreapp3.1\ApportionmentCalculatorCS_MarkupCompile.lref
 C:\Users\brorie3\Desktop\dev\ApportionmentCalculatorCS\ApportionmentCalculatorCS\obj\Debug\netcoreapp3.1\MainWindow.baml
 C:\Users\brorie3\Desktop\dev\ApportionmentCalculatorCS\ApportionmentCalculatorCS\obj\Debug\netcoreapp3.1\ApportionmentCalculatorCS.g.resources
 C:\Users\brorie3\Desktop\dev\ApportionmentCalculatorCS\ApportionmentCalculatorCS\obj\Debug\netcoreapp3.1\ApportionmentCalculatorCS.GeneratedMSBuildEditorConfig.editorconfig

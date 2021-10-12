@@ -77,11 +77,11 @@ namespace ApportionmentCalculatorNET
             }
 
             // Clear the data from the columns in the default row.
-            list[0].population = 0;
-            list[0].initialFairShare = 0;
-            list[0].finalFairShare = 0;
-            list[0].initialQuota = 0;
-            list[0].finalQuota = 0;
+            list[0].population = "";
+            list[0].initialFairShare = "";
+            list[0].finalFairShare = "";
+            list[0].initialQuota = "";
+            list[0].finalQuota = "";
             list[0].nickname = "";
             DataGridXAML.ItemsSource = null;
             DataGridXAML.ItemsSource = ApportionRowData.GetRowData();
@@ -109,13 +109,24 @@ namespace ApportionmentCalculatorNET
 
             // Collect the total population of all states.
             int populationTotal = 0;
+            bool lettersDetected = false;
             for (int i = 0; i < list.Count; i++)
             {
-                populationTotal += list[i].population;
+                try
+                {
+                    populationTotal += int.Parse(list[i].population);
+                } catch (Exception ex)
+                {
+                    if (ex is System.FormatException || ex is System.ArgumentNullException)
+                    {
+                        lettersDetected = true;
+                    }
+                    break;
+                } 
             }
 
             // Make sure there is a positive number of seats to assign and a population to assign them to.
-            if (seats > 0 && populationTotal > 0)
+            if (seats > 0 && populationTotal > 0 && !lettersDetected)
             {
                 // Collect the data required for apportionment.
                 int[] states = new int[list.Count];
@@ -129,7 +140,7 @@ namespace ApportionmentCalculatorNET
                 for (int i = 0; i < list.Count; i++)
                 {
                     states[i] = list[i].state;
-                    populations[i] = list[i].population;
+                    populations[i] = int.Parse(list[i].population);
                 }
 
                 // Calculate the results depending on the selected apportionment method.
@@ -183,10 +194,10 @@ namespace ApportionmentCalculatorNET
                 // Update the values in the datagrid to reflect the final calculations.
                 for (int i = 0; i < list.Count; i++)
                 {
-                    list[i].initialFairShare = initialFairShares[i];
-                    list[i].finalFairShare = finalFairShares[i];
-                    list[i].initialQuota = initialQuotas[i];
-                    list[i].finalQuota = finalQuotas[i];
+                    list[i].initialFairShare = initialFairShares[i] + "";
+                    list[i].finalFairShare = finalFairShares[i] + "";
+                    list[i].initialQuota = initialQuotas[i] + "";
+                    list[i].finalQuota = finalQuotas[i] + "";
                 }
                 DataGridXAML.ItemsSource = null;
                 DataGridXAML.ItemsSource = ApportionRowData.GetRowData();
@@ -207,6 +218,12 @@ namespace ApportionmentCalculatorNET
                 if (populationTotal < 1)
                 {
                     output += "\n- Total population must be greater than 0.";
+                }
+
+                // Letters detected in input fields.
+                if (lettersDetected)
+                {
+                    output += "\n- Invalid input detected in population fields.";
                 }
 
                 Output.Content = output;
@@ -249,10 +266,10 @@ namespace ApportionmentCalculatorNET
     {
         public string nickname { get; set; }
         public int state { get; set; }
-        public int population { get; set; }
-        public decimal initialQuota { get; set; }
-        public decimal finalQuota { get; set; }
-        public int initialFairShare { get; set; }
-        public int finalFairShare { get; set; }
+        public string population { get; set; }
+        public string initialQuota { get; set; }
+        public string finalQuota { get; set; }
+        public string initialFairShare { get; set; }
+        public string finalFairShare { get; set; }
     }
 }
