@@ -48,13 +48,14 @@
                     </DataGrid.Resources>
 
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="#" Binding="{Binding state}" IsReadOnly="True" Width="40"/>
-                        <DataGridTextColumn Header="name (optional)" Binding="{Binding nickname}" IsReadOnly="False" Width="120"/>
-                        <DataGridTextColumn Header="population*" Binding="{Binding population}" IsReadOnly="False" Width="120"/>
-                        <DataGridTextColumn Header="initial quota" Binding="{Binding initialQuota}" IsReadOnly="True" Width="120"/>
-                        <DataGridTextColumn Header="final quota" Binding="{Binding finalQuota}" IsReadOnly="True" Width="120"/>
-                        <DataGridTextColumn Header="initial fair share" Binding="{Binding initialFairShare}" IsReadOnly="True" Width="120"/>
-                        <DataGridTextColumn Header="final fair share" Binding="{Binding finalFairShare}" IsReadOnly="True" Width="120"/>
+                        <DataGridTextColumn Header="#" Binding="{Binding state}" IsReadOnly="True" Width="30"/>
+                        <DataGridTextColumn Header="name (optional)" Binding="{Binding nickname}" IsReadOnly="False" Width="110"/>
+                        <DataGridTextColumn Header="population*" Binding="{Binding population}" IsReadOnly="False" Width="110"/>
+                        <DataGridTextColumn Header="initial quota" Binding="{Binding initialQuota}" IsReadOnly="True" Width="110"/>
+                        <DataGridTextColumn Header="final quota" Binding="{Binding finalQuota}" IsReadOnly="True" Width="110"/>
+                        <DataGridTextColumn Header="initial fair share" Binding="{Binding initialFairShare}" IsReadOnly="True" Width="110"/>
+                        <DataGridTextColumn Header="final fair share" Binding="{Binding finalFairShare}" IsReadOnly="True" Width="110"/>
+                        <DataGridTextColumn Header="next priority" Binding="{Binding priorityValue}" IsReadOnly="True" Width="110"/>
                     </DataGrid.Columns>
                 </DataGrid>
 

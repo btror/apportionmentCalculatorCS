@@ -50,11 +50,13 @@ namespace ApportionmentCalculatorNET
                 list[i].finalFairShare = "";
                 list[i].initialQuota = "";
                 list[i].finalQuota = "";
+                list[i].priorityValue = "";
             }
             list[0].initialFairShare = "";
             list[0].finalFairShare = "";
             list[0].initialQuota = "";
             list[0].finalQuota = "";
+            list[0].priorityValue = "";
 
             // Add a new row to the datagrid. 
             ApportionRowData.AddToList(newRow);
@@ -81,11 +83,13 @@ namespace ApportionmentCalculatorNET
                     list[i].finalFairShare = "";
                     list[i].initialQuota = "";
                     list[i].finalQuota = "";
+                    list[i].priorityValue = "";
                 }
                 list[0].initialFairShare = "";
                 list[0].finalFairShare = "";
                 list[0].initialQuota = "";
                 list[0].finalQuota = "";
+                list[0].priorityValue = "";
 
                 DataGridXAML.ItemsSource = null;
                 DataGridXAML.ItemsSource = ApportionRowData.GetRowData();
@@ -114,6 +118,7 @@ namespace ApportionmentCalculatorNET
             list[0].initialQuota = "";
             list[0].finalQuota = "";
             list[0].nickname = "";
+            list[0].priorityValue = "";
             DataGridXAML.ItemsSource = null;
             DataGridXAML.ItemsSource = ApportionRowData.GetRowData();
             Output.Content = "";
@@ -164,8 +169,10 @@ namespace ApportionmentCalculatorNET
                 int[] populations = new int[list.Count];
                 decimal[] initialQuotas = new decimal[list.Count];
                 decimal[] finalQuotas = new decimal[list.Count];
+                decimal[] priorityValues = new decimal[list.Count];
                 int[] initialFairShares = new int[list.Count];
                 int[] finalFairShares = new int[list.Count];
+                bool hillSelected = false;
 
                 // Create lists for eeach state's population.
                 for (int i = 0; i < list.Count; i++)
@@ -215,20 +222,30 @@ namespace ApportionmentCalculatorNET
                 else if (method.Equals("System.Windows.Controls.ComboBoxItem: huntington hill"))
                 {
                     var result = HuntingtonHill.Calculate(seats, populations);
-                    initialQuotas = result.Item3;
-                    finalQuotas = result.Item4;
-                    initialFairShares = result.Item1;
+                    priorityValues = result.Item1;
                     finalFairShares = result.Item2;
-                    Output.Content = "Original divisor is " + result.Item5 + "\nModified divisor is " + result.Item6;
+                    hillSelected = true;
+                    Output.Content = "";
                 }
 
                 // Update the values in the datagrid to reflect the final calculations.
                 for (int i = 0; i < list.Count; i++)
                 {
-                    list[i].initialFairShare = initialFairShares[i] + "";
-                    list[i].finalFairShare = finalFairShares[i] + "";
-                    list[i].initialQuota = initialQuotas[i] + "";
-                    list[i].finalQuota = finalQuotas[i] + "";
+                    if (!hillSelected)
+                    {
+                        list[i].initialFairShare = initialFairShares[i] + "";
+                        list[i].finalFairShare = finalFairShares[i] + "";
+                        list[i].initialQuota = initialQuotas[i] + "";
+                        list[i].finalQuota = finalQuotas[i] + "";
+                        list[i].priorityValue = "-";
+                    } else
+                    {
+                        list[i].initialFairShare = "-";
+                        list[i].initialQuota = "-";
+                        list[i].finalQuota = "-";
+                        list[i].finalFairShare = finalFairShares[i] + "";
+                        list[i].priorityValue = priorityValues[i] + "";
+                    }
                 }
   
                 DataGridXAML.ItemsSource = null;
@@ -303,5 +320,7 @@ namespace ApportionmentCalculatorNET
         public string finalQuota { get; set; }
         public string initialFairShare { get; set; }
         public string finalFairShare { get; set; }
+
+        public string priorityValue { get; set; }
     }
 }

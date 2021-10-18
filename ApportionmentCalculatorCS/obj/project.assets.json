@@ -8,24 +8,19 @@
     ".NETCoreApp,Version=v3.1": []
   },
   "packageFolders": {
-    "C:\\Users\\brorie3\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\ticer\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\brorie3\\Desktop\\dev\\ApportionmentCalculatorCS\\ApportionmentCalculatorCS\\ApportionmentCalculatorCS.csproj",
+      "projectUniqueName": "C:\\Users\\ticer\\Desktop\\dev\\apportionmentCalculatorCS\\ApportionmentCalculatorCS\\ApportionmentCalculatorCS.csproj",
       "projectName": "ApportionmentCalculatorCS",
-      "projectPath": "C:\\Users\\brorie3\\Desktop\\dev\\ApportionmentCalculatorCS\\ApportionmentCalculatorCS\\ApportionmentCalculatorCS.csproj",
-      "packagesPath": "C:\\Users\\brorie3\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\brorie3\\Desktop\\dev\\ApportionmentCalculatorCS\\ApportionmentCalculatorCS\\obj\\",
+      "projectPath": "C:\\Users\\ticer\\Desktop\\dev\\apportionmentCalculatorCS\\ApportionmentCalculatorCS\\ApportionmentCalculatorCS.csproj",
+      "packagesPath": "C:\\Users\\ticer\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\ticer\\Desktop\\dev\\apportionmentCalculatorCS\\ApportionmentCalculatorCS\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\brorie3\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Users\\ticer\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
